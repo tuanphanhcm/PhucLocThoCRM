@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
+import java.util.jar.Manifest;
 
 @Entity
 @Table(name = "expenses")
@@ -23,6 +25,9 @@ public class Expense {
 
     @Column(name = "expense_type_id")
     private int expenseTypeId;
+    @ManyToOne
+    @JoinColumn(name = "expense_type_id",insertable = false,updatable = false)
+    ExpenseType expenseType;
 
     private int amount;
 
@@ -30,6 +35,9 @@ public class Expense {
 
     @Column(name = "user_id")
     private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id",insertable = false,updatable = false)
+    User user;
 
     public Expense() {
     }

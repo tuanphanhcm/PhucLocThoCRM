@@ -27,6 +27,10 @@ public class Price {
     @CreatedDate
     private Date createDate;
 
+    @ManyToOne
+    @JoinColumn(name = "item_id",insertable = false, updatable = false)
+    Item item;
+
     public Price() {
     }
 

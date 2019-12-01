@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "purchase_orders")
@@ -24,11 +25,22 @@ public class PurchaseOrder {
 
     @Column(name = "vendor_id")
     private int vendorId;
+    @ManyToOne
+    @JoinColumn(name = "vendor_id",insertable = false,updatable = false)
+    Vendor vendor;
 
     @Column(name = "user_id")
     private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id",insertable = false,updatable = false)
+    User user;
+
+    @OneToMany(mappedBy = "purchaseOrder",fetch = FetchType.LAZY)
+    Set<PurchaseOrderDetail> purchaseOrderDetails;
 
     private String billNumber;
+
+
 
     public PurchaseOrder() {
     }

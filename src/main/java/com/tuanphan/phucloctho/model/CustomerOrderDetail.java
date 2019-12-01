@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Join;
 
 @Entity
 @Table(name = "customer_order_details")
@@ -16,9 +17,15 @@ public class CustomerOrderDetail {
 
     @Column(name = "customer_order_id")
     private int customerOrderId;
+    @ManyToOne
+    @JoinColumn(name = "customer_order_id",insertable = false,updatable = false)
+    CustomerOrder customerOrder;
 
     @Column(name = "item_id")
     private int itemId;
+    @ManyToOne
+    @JoinColumn(name = "item_id",insertable = false,updatable = false)
+    Item item;
 
     private int quantity;
 

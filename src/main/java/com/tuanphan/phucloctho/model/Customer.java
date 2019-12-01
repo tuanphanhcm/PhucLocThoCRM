@@ -3,12 +3,10 @@ package com.tuanphan.phucloctho.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "customers")
@@ -24,9 +22,14 @@ public class Customer {
     private String taxCode;
     private String address;
     private String phone;
-    @Email
     private String email;
     private String remarks;
+
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    Set<Receipt> receipts;
+
+    @OneToMany(mappedBy = "customer",fetch = FetchType.LAZY)
+    Set<CustomerOrder> customerOrders;
 
     public Customer(@NotNull String name, String taxCode, String address, String phone, @Email String email, String remarks) {
         this.name = name;

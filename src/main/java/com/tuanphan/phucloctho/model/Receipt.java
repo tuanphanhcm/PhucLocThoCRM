@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Join;
 import java.util.Date;
 
 @Entity
@@ -23,6 +24,9 @@ public class Receipt {
 
     @Column(name = "customer_id")
     private int customerId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id",insertable = false,updatable = false)
+    Customer customer;
 
     private int amount;
 
@@ -30,6 +34,9 @@ public class Receipt {
 
     @Column(name = "user_id")
     private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id",insertable = false, updatable = false)
+    User user;
 
     public Receipt() {
     }

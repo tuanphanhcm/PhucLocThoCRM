@@ -16,9 +16,15 @@ public class PurchaseOrderDetail {
 
     @Column(name = "purchase_order_id")
     private int purchaseOrderId;
+    @ManyToOne
+    @JoinColumn(name = "purchase_order_id",insertable = false,updatable = false)
+    PurchaseOrder purchaseOrder;
 
     @Column(name = "item_id")
     private int itemId;
+    @ManyToOne
+    @JoinColumn(name = "item_id",insertable = false,updatable = false)
+    Item item;
 
     private int quantity;
 

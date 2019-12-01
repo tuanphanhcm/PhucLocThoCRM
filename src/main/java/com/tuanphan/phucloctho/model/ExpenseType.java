@@ -3,11 +3,9 @@ package com.tuanphan.phucloctho.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 @Table(name = "expenses_type")
@@ -23,6 +21,9 @@ public class ExpenseType {
     private String name;
 
     private String description;
+
+    @OneToMany(mappedBy = "expenseType",fetch = FetchType.LAZY)
+    Set<Expense> expenses;
 
     public ExpenseType() {
     }

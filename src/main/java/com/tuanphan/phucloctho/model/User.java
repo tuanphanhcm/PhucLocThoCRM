@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -17,19 +18,31 @@ public class User {
     @GeneratedValue
     private int id;
 
-    @NotNull
     private String name;
 
-    @NotBlank
     private String username;
 
-    @NotBlank
     private String password;
 
     private String phone;
 
     @Column(name = "role_id")
     private String roleId;
+    @ManyToOne
+    @JoinColumn(name = "role_id",insertable = false,updatable = false)
+    Role role;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    Set<PurchaseOrder> purchaseOrders;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    Set<CustomerOrder> customerOrders;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    Set<Receipt> receipts;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    Set<Expense> expenses;
 
     public User() {
     }

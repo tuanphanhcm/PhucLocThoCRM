@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer_orders")
@@ -24,9 +25,18 @@ public class CustomerOrder {
 
     @Column(name = "customer_id")
     private int customerId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id",insertable = false,updatable = false)
+    Customer customer;
 
     @Column(name = "user_id")
     private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id",insertable = false,updatable = false)
+    User user;
+
+    @OneToMany(mappedBy = "customerOrder",fetch = FetchType.EAGER)
+    Set<CustomerOrderDetail> customerOrderDetails;
 
     private String invoiceNumber;
 

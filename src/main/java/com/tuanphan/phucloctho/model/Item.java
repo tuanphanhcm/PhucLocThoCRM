@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Join;
+import java.util.Set;
 
 @Entity
 @Table(name = "items")
@@ -26,14 +28,22 @@ public class Item {
     @JoinColumn(name = "brand_id", insertable = false, updatable = false)
     Brand brand;
 
+    @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
+    Set<Price> prices;
+
+    @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
+    Set<PurchaseOrderDetail> purchaseOrderDetails;
+
+    @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
+    Set<CustomerOrderDetail> customerOrderDetails;
+
     public Item() {
     }
 
-    public Item(String name, int brandId, String unit, Brand brand) {
+    public Item(String name, int brandId, String unit) {
         this.name = name;
         this.brandId = brandId;
         this.unit = unit;
-        this.brand = brand;
     }
 
     public int getId() {
