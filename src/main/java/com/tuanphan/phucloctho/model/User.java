@@ -2,20 +2,21 @@ package com.tuanphan.phucloctho.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "users")
-@Data
-@AllArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id",insertable = false,updatable = false)
     private int id;
 
     private String name;
@@ -33,73 +34,15 @@ public class User {
     Role role;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    Set<PurchaseOrder> purchaseOrders;
+    List<PurchaseOrder> purchaseOrderList;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    Set<CustomerOrder> customerOrders;
+    List<CustomerOrder> customerOrderList;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    Set<Receipt> receipts;
+    List<Receipt> receiptList;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-    Set<Expense> expenses;
+    List<Expense> expenseList;
 
-    public User() {
-    }
-
-    public User(@NotNull String name, @NotBlank String username, @NotBlank String password, String phone, String roleId) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.phone = phone;
-        this.roleId = roleId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
 }

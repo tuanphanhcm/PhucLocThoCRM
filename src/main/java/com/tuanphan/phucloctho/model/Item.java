@@ -2,19 +2,21 @@ package com.tuanphan.phucloctho.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Join;
-import java.util.Set;
+import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "items")
-@Data
-@AllArgsConstructor
 public class Item {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id",insertable = false,updatable = false)
     private int id;
 
     private String name;
@@ -29,60 +31,12 @@ public class Item {
     Brand brand;
 
     @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
-    Set<Price> prices;
+    List<Price> priceList;
 
     @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
-    Set<PurchaseOrderDetail> purchaseOrderDetails;
+    List<PurchaseOrderDetail> purchaseOrderDetailList;
 
     @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
-    Set<CustomerOrderDetail> customerOrderDetails;
+    List<CustomerOrderDetail> customerOrderDetailList;
 
-    public Item() {
-    }
-
-    public Item(String name, int brandId, String unit) {
-        this.name = name;
-        this.brandId = brandId;
-        this.unit = unit;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
 }

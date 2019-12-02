@@ -2,19 +2,22 @@ package com.tuanphan.phucloctho.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
+import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "expenses_type")
-@Data
-@AllArgsConstructor
 public class ExpenseType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id",insertable = false,updatable = false)
     private int id;
 
     @NotBlank
@@ -23,37 +26,6 @@ public class ExpenseType {
     private String description;
 
     @OneToMany(mappedBy = "expenseType",fetch = FetchType.LAZY)
-    Set<Expense> expenses;
+    List<Expense> expenseList;
 
-    public ExpenseType() {
-    }
-
-    public ExpenseType(@NotBlank String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
