@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+@JsonIgnoreProperties(value = {"role","purchaseOrderList","customerOrderList","receiptList","expenseList"},
+        allowGetters = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -28,9 +31,10 @@ public class User {
     private String phone;
 
     @Column(name = "role_id")
-    private String roleId;
+    private int roleId;
     @ManyToOne
-    @JoinColumn(name = "role_id",insertable = false,updatable = false)
+    @JoinColumn(name = "role_id",foreignKey = @ForeignKey(name = "fk_user_role"),insertable = false,updatable = false)
+
     Role role;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)

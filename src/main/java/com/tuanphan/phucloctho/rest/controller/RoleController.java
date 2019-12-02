@@ -7,12 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/roles")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class RoleController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class RoleController {
     }
 
     @PostMapping("")
-    public Object insertNewRole(@RequestBody Role role){
+    public Object insertNewRole(@Valid @RequestBody Role role){
         if(roleService.addRole(role) == null)
             return new ResponseEntity<>("Invalid role",HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(role,HttpStatus.OK);
