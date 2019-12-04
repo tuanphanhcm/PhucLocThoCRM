@@ -2,6 +2,7 @@ package com.tuanphan.phucloctho.rest.controller;
 
 import com.tuanphan.phucloctho.dto.UserDto;
 import com.tuanphan.phucloctho.model.User;
+import com.tuanphan.phucloctho.service.RoleService;
 import com.tuanphan.phucloctho.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    RoleService roleService;
 
     @GetMapping("")
     public Object getAllUsers(){
@@ -29,27 +32,72 @@ public class UserController {
     @PostMapping("")
     public Object addUser(
             @Valid @RequestBody UserDto userDto,
-            BindingResult errors
-        ){
+            BindingResult errors){
         if(errors.hasErrors())
-            return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_REQUEST);
+        List<User> existingUsers = userService.findByUsername(userDto.getUsername());
+        if(!existingUsers.isEmpty()){
+            errors.rejectValue("username","userDto.existed","Username đã tồn tại!");
+            return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_REQUEST);
+        }
         if(!userDto.getPassword().equals(userDto.getConfirmPassword())) {
             errors.rejectValue("confirmPassword", "userDto", "Nhập lại mật khẩu không trùng khớp");
             return new ResponseEntity<>(errors.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
-        User user = parseUser(userDto);
-        if(userService.addUser(user) == null)
+        if(!roleService.existsById(userDto.getRoleId())){
+            errors.rejectValue("roleId","userDto","Quyền truy cập không tồn tại!");
+            return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_REQUEST);
+        }
+        User user = userService.addUser(userDto);
+        if(user == null)
             return new ResponseEntity<>("Invalid user",HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        return new ResponseEntity<>(user,HttpStatus.CREATED);
     }
 
-    private User parseUser(UserDto userDto){
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        user.setPhone(userDto.getPhone());
-        user.setRoleId(userDto.getRoleId());
-        return user;
+    @GetMapping("/find/username/{username}")
+    public Object findByUsername(@RequestParam String username){
+        if(username.isEmpty())
+            return new ResponseEntity<>("Vui lòng nhập username", HttpStatus.BAD_GATEWAY);
+
+        List<User> userList = userService.findByUsername(username);
+
+        if(userList.isEmpty())
+            return new ResponseEntity<>("Username không tồn tại",HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(userList,HttpStatus.OK);
+    }
+
+    @PutMapping("")
+    public Object updateUser(@Valid @RequestBody User user, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
+
+        if(!userService.isExisting(user.getId())){
+            bindingResult.rejectValue("id","user","ID không tồn tại");
+            return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
+        }
+
+        User updatedUser = userService.updateUser(user);
+        return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public Object deleteById(@PathVariable int id){
+        if(userService.isExisting(id)){
+            userService.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>("User không tồn tại!",HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/find/roleId/{roleId}")
+    public Object findByRoleId(@PathVariable int roleId){
+        if(!roleService.existsById(roleId))
+            return new ResponseEntity<>("Quyền truy cập không tồn tại",HttpStatus.BAD_REQUEST);
+
+        List<User> userList = userService.findByRoleId(roleId);
+        if(userList.isEmpty())
+            return new ResponseEntity<>("Không tìm thấy bất kỳ user nào!",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(userList,HttpStatus.OK);
     }
 }

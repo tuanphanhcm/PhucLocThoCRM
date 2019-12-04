@@ -20,4 +20,8 @@ public class RoleService {
     public Role addRole(Role role){
         return roleRepository.save(role);
     }
+
+    public Boolean existsById(int id){
+        return roleRepository.existsById(id);
+    }
 }

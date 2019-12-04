@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,19 +35,23 @@ public class User {
     private int roleId;
     @ManyToOne
     @JoinColumn(name = "role_id",foreignKey = @ForeignKey(name = "fk_user_role"),insertable = false,updatable = false)
-
+    @JsonIgnore
     Role role;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonIgnore
     List<PurchaseOrder> purchaseOrderList;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     List<CustomerOrder> customerOrderList;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     List<Receipt> receiptList;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonIgnore
     List<Expense> expenseList;
 
 }

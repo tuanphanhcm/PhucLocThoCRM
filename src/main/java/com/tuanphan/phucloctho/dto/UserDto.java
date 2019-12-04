@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +22,7 @@ public class UserDto {
     @NotBlank
     private String name;
     private String phone;
+    @NotNull
     private int roleId;
 
 }
