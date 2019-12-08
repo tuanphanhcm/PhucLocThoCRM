@@ -27,4 +27,19 @@ public class CustomerService {
     public List<Customer> findByTaxCode(String taxCode){
         return customerRepository.findByTaxCode(taxCode);
     }
+
+    public boolean existsById(int id){
+        return customerRepository.existsById(id);
+    }
+
+    public boolean deleteById(int id){
+        customerRepository.deleteById(id);
+        if(customerRepository.existsById(id))
+            return false;
+        return true;
+    }
+
+    public List<Customer> findByName(String name){
+        return customerRepository.findByName(name);
+    }
 }
