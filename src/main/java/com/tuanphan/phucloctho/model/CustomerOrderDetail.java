@@ -31,7 +31,11 @@ public class CustomerOrderDetail {
 
     private int quantity;
 
-    private int price;
+    @Column(name = "price_id")
+    private int priceId;
+    @ManyToOne
+    @JoinColumn(name = "price_id",insertable = false,updatable = false)
+    Price price;
 
     private float discount;
 

@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,15 +29,19 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "brand_id", insertable = false, updatable = false)
+            @JsonIgnore
     Brand brand;
 
     @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
+            @JsonIgnore
     List<Price> priceList;
 
     @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
+            @JsonIgnore
     List<PurchaseOrderDetail> purchaseOrderDetailList;
 
     @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
+            @JsonIgnore
     List<CustomerOrderDetail> customerOrderDetailList;
 
 }

@@ -1,10 +1,12 @@
 package com.tuanphan.phucloctho.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,20 +23,27 @@ public class PurchaseOrderDetail {
     private int purchaseOrderId;
     @ManyToOne
     @JoinColumn(name = "purchase_order_id",insertable = false,updatable = false)
+            @JsonIgnore
     PurchaseOrder purchaseOrder;
 
     @Column(name = "item_id")
     private int itemId;
     @ManyToOne
     @JoinColumn(name = "item_id",insertable = false,updatable = false)
+            @JsonIgnore
     Item item;
-
+    @NotNull
     private int quantity;
 
-    private int price;
+    @Column(name = "price_id")
+    private int priceId;
+    @ManyToOne
+    @JoinColumn(name = "price_id",insertable = false,updatable = false)
+    Price price;
 
+    @NotNull
     private float discount;
-
+    @NotNull
     private float total;
 
 }
