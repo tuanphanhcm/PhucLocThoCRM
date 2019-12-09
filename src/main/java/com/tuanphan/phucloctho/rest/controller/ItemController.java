@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.rest.controller;
 
+import com.tuanphan.phucloctho.dto.ItemDto;
 import com.tuanphan.phucloctho.model.Item;
 import com.tuanphan.phucloctho.service.BrandService;
 import com.tuanphan.phucloctho.service.ItemService;
@@ -26,7 +27,7 @@ public class ItemController {
 
     @GetMapping("")
     public Object findAll(){
-        List<Item> itemList = itemService.findAll();
+        List<ItemDto> itemList = itemService.findAllItemDto();
         if(itemList.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(itemList,HttpStatus.OK);

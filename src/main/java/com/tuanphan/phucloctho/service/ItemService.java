@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.service;
 
+import com.tuanphan.phucloctho.dto.ItemDto;
 import com.tuanphan.phucloctho.model.Item;
 import com.tuanphan.phucloctho.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ public class ItemService {
     public List<Item> findAll(){
         return itemRepository.findAll();
     }
-
+    public List<ItemDto> findAllItemDto(){
+        return itemRepository.findAllItemDto();
+    }
     public Item add(Item item){
         return itemRepository.save(item);
     }
