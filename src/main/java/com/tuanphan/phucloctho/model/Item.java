@@ -27,6 +27,9 @@ public class Item {
 
     private String unit;
 
+    @Column(name = "storage_amount")
+    private int storageAmount;
+
     @ManyToOne
     @JoinColumn(name = "brand_id", insertable = false, updatable = false)
             @JsonIgnore

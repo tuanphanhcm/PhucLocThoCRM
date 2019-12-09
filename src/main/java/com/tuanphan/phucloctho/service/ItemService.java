@@ -24,5 +24,21 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
+    public boolean deleteById(int id){
+        if(itemRepository.existsById(id)){
+            itemRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 
+    public boolean existsById(int id){
+        return itemRepository.existsById(id);
+    }
+
+    public List<Item> findByName(String name){
+        return itemRepository.findByName(name);
+    }
+
+    
 }
