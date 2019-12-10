@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class ExpenseType {
     private String description;
 
     @OneToMany(mappedBy = "expenseType",fetch = FetchType.LAZY)
+            @JsonIgnore
     List<Expense> expenseList;
 
 }
