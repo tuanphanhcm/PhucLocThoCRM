@@ -33,6 +33,9 @@ public class Price {
     @Min(value = 1)
     private int itemPrice;
 
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "item_id")
     private int itemId;
     @ManyToOne

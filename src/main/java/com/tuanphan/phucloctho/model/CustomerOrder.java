@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,12 +31,14 @@ public class CustomerOrder {
     private int customerId;
     @ManyToOne
     @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+            @JsonIgnore
     Customer customer;
 
     @Column(name = "user_id")
     private int userId;
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+            @JsonIgnore
     User user;
 
     @OneToMany(mappedBy = "customerOrder", fetch = FetchType.EAGER)

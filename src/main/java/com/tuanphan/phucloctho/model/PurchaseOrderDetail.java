@@ -39,6 +39,7 @@ public class PurchaseOrderDetail {
     private int priceId;
     @ManyToOne
     @JoinColumn(name = "price_id",insertable = false,updatable = false)
+            @JsonIgnore
     Price price;
 
     @NotNull

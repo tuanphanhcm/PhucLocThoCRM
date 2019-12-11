@@ -1,5 +1,6 @@
 package com.tuanphan.phucloctho.rest.controller;
 
+import com.tuanphan.phucloctho.dto.PriceDto;
 import com.tuanphan.phucloctho.model.Price;
 import com.tuanphan.phucloctho.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class PriceController {
 
     @GetMapping("")
     public Object findAll(){
-        List<Price> priceList = priceService.findAll();
+        List<PriceDto> priceList = priceService.findAllDto();
         if(priceList.isEmpty())
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(priceList,HttpStatus.OK);
