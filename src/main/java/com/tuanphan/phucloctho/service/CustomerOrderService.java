@@ -22,4 +22,7 @@ public class CustomerOrderService {
     }
 
 
+    public CustomerOrder add(CustomerOrder customerOrder) {
+        return customerOrderRepository.save(customerOrder);
+    }
 }
