@@ -35,8 +35,6 @@ public class ExpenseController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
         Expense addedExpense = expenseService.add(expense);
-        if(addedExpense == null)
-            return new ResponseEntity<>("Thêm phiếu chi thất bại.",HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(addedExpense,HttpStatus.OK);
     }
 }

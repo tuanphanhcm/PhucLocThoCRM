@@ -36,8 +36,6 @@ public class PriceController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
         Price addedPrice = priceService.add(price);
-        if(addedPrice == null)
-            return new ResponseEntity<>("Thêm giá thất bại.",HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(addedPrice,HttpStatus.OK);
     }
 }

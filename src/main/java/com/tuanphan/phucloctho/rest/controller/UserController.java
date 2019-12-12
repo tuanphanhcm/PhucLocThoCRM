@@ -35,8 +35,8 @@ public class UserController {
             BindingResult errors){
         if(errors.hasErrors())
             return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_REQUEST);
-        List<User> existingUsers = userService.findByUsername(userDto.getUsername());
-        if(!existingUsers.isEmpty()){
+        User existingUsers = userService.findByUsername(userDto.getUsername());
+        if(existingUsers == null){
             errors.rejectValue("username","userDto.existed","Username đã tồn tại!");
             return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_REQUEST);
         }
@@ -59,9 +59,9 @@ public class UserController {
         if(username.isEmpty())
             return new ResponseEntity<>("Vui lòng nhập username", HttpStatus.BAD_GATEWAY);
 
-        List<User> userList = userService.findByUsername(username);
+        User userList = userService.findByUsername(username);
 
-        if(userList.isEmpty())
+        if(userList == null)
             return new ResponseEntity<>("Username không tồn tại",HttpStatus.NO_CONTENT);
 
         return new ResponseEntity<>(userList,HttpStatus.OK);

@@ -23,7 +23,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> findByUsername(String username){
+    public User findByUsername(String username){
         return userRepository.findByUsername(username);
     }
     private User parseUser(UserDto userDto){

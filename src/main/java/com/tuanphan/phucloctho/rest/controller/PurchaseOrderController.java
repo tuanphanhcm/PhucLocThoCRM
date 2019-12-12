@@ -31,6 +31,7 @@ public class PurchaseOrderController {
                       BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>("TEST", HttpStatus.OK);
+        PurchaseOrder addedOrder = purchaseOrderService.add(purchaseOrder);
+        return new ResponseEntity<>(addedOrder, HttpStatus.OK);
     }
 }

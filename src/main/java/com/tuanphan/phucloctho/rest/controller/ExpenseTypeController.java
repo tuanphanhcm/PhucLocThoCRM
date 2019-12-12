@@ -35,8 +35,6 @@ public class ExpenseTypeController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
         ExpenseType addedExpenseType = expenseTypeService.add(expenseType);
-        if(addedExpenseType == null)
-            return new ResponseEntity<>("Thêm loại chi phí thất bại.",HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(addedExpenseType,HttpStatus.OK);
     }
 

@@ -44,8 +44,6 @@ public class ItemController {
         }
         item.setId(0);
         Item addedItem = itemService.add(item);
-        if(addedItem == null)
-            return new ResponseEntity<>("Thêm hàng hóa thất bại.",HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(addedItem,HttpStatus.OK);
     }
 }

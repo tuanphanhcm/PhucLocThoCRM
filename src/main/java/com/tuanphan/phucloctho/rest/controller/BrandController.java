@@ -9,15 +9,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/brand")
 public class BrandController {
-    @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
+    @Autowired
+    public BrandController(BrandService service){
+        this.brandService = service;
+    }
     @GetMapping("")
     public Object findAll(){
         List<Brand> brandList = brandService.findAll();
@@ -32,8 +34,6 @@ public class BrandController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
         Brand addedBrand = brandService.save(brand);
-        if(addedBrand == null)
-            return new ResponseEntity<>("Thêm nhãn hàng mới thất bại.",HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(addedBrand,HttpStatus.OK);
     }
 
