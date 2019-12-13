@@ -34,6 +34,9 @@ public class CustomerOrderController {
         if(bindingResult.hasErrors())
             return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
         CustomerOrder addedCustomerOrder = customerOrderService.add(customerOrder);
+        if(addedCustomerOrder == null)
+            return new ResponseEntity<>("Thêm đơn hàng thất bại.\nVui lòng kiểm tra lại số lượng hàng tồn kho",
+                    HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(addedCustomerOrder,HttpStatus.OK);
     }
 }

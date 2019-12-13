@@ -51,12 +51,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .antMatcher("/api/**")
                 .authorizeRequests()
-                //.antMatchers("/api/**")
-                //.permitAll()
+                .antMatchers("/api/**")
+                .permitAll()
                 .antMatchers("/login")
                 .permitAll()
-                .antMatchers("/api/**")
-                .hasAnyRole("ADMIN","MANAGER","ACCOUNTANT")
+                //.antMatchers("/api/**")
+                //.hasAnyRole("ADMIN","MANAGER","ACCOUNTANT")
                 .anyRequest()
                 .authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
