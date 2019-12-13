@@ -1,10 +1,14 @@
 package com.tuanphan.phucloctho.config;
 
-import org.springframework.beans.factory.BeanFactory;
+import com.tuanphan.phucloctho.repository.UserRepository;
+import com.tuanphan.phucloctho.security.filter.JWTAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,12 +19,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan("com.tuanphan.phucloctho.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserDetailsService userDetailsService;
+    private UserRepository _userRepository;
+    private UserDetailsService _userDetailsService;
 
     @Autowired
-    public SecurityConfig(UserDetailsService service){
-        this.userDetailsService = service;
+    public SecurityConfig(UserRepository userRepository,
+                          @Qualifier("userDetailsServiceImpl")
+                          UserDetailsService userDetailsService
+        ){
+        this._userRepository = userRepository;
+        this._userDetailsService = userDetailsService;
+
     }
 
     @Bean
@@ -38,17 +49,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
         http.csrf().disable()
-                .antMatcher("/api/admin/**")
+                .antMatcher("/api/**")
                 .authorizeRequests()
-                .antMatchers("/api/**")
-                .permitAll()
+                //.antMatchers("/api/**")
+                //.permitAll()
                 .antMatchers("/login")
                 .permitAll()
-                .antMatchers("/api/admin/**")
-                .hasAnyRole("ADMIN","MANAGER")
+                .antMatchers("/api/**")
+                .hasAnyRole("ADMIN","MANAGER","ACCOUNTANT")
                 .anyRequest()
                 .authenticated();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(),_userDetailsService));
+    }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(_userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 }
