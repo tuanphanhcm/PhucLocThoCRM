@@ -2,6 +2,7 @@ package com.tuanphan.phucloctho.security.filter;
 
 import com.tuanphan.phucloctho.security.SecurityUtils;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +27,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String tokenBearer = request.getHeader("Authorization");
-        if(tokenBearer != null || tokenBearer.startsWith("Bearer ")){
+        if(tokenBearer != null && tokenBearer.startsWith("Bearer ")){
             String token = tokenBearer.replace("Bearer ","");
             String userNameDecodedFromToken = Jwts.parser()
                     .setSigningKey(SecurityUtils.secretKey)
