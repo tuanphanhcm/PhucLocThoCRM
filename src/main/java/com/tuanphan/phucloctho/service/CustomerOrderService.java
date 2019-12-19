@@ -47,6 +47,7 @@ public class CustomerOrderService {
                 return null;
             orderDetail.setCustomerOrderId(addedOrder.getId());
             orderDetail.setTotal(calculateTotal(orderDetail));
+
         }
         orderDetailRepository.saveAll(orderDetailList);
         return addedOrder;
