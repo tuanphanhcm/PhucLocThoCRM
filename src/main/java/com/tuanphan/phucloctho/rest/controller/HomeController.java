@@ -1,17 +1,15 @@
 package com.tuanphan.phucloctho.rest.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/home")
+@Controller
+@RequestMapping("/")
 public class HomeController {
 
     @GetMapping("")
-    public Object index(){
-        return new ResponseEntity<>("Home page",HttpStatus.OK);
+    public Object index() {
+        return "index";
     }
 }
