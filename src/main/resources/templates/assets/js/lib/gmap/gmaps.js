@@ -133,10 +133,10 @@ var getElementsByClassName = function (class_name, context) {
 
 var getElementById = function(id, context) {
   var element,
-  id = id.replace('#', '');
+  id = id.replace('@{#}', '');
 
   if ('jQuery' in window && context) {
-    element = $('#' + id, context)[0];
+    element = $('@{#}' + id, context)[0];
   } else {
     element = document.getElementById(id);
   };
@@ -244,7 +244,7 @@ var GMaps = (function(global) {
         };
 
       if (typeof(options.el) === 'string' || typeof(options.div) === 'string') {
-        if (identifier.indexOf("#") > -1) {
+        if (identifier.indexOf("#}") > -1) {
             /**
              * Container element
              *
@@ -370,7 +370,7 @@ var GMaps = (function(global) {
         if (options.hasOwnProperty(i)) {
           var option = options[i];
 
-          html += '<li><a id="' + control + '_' + i + '" th:href="#">' + option.title + '</a></li>';
+          html += '<li><a id="' + control + '_' + i + '" th:href="@{#}">' + option.title + '</a></li>';
         }
       }
 
@@ -1582,7 +1582,7 @@ GMaps.prototype.cleanRoute = GMaps.prototype.removePolylines;
 
 GMaps.prototype.renderRoute = function(options, renderOptions) {
   var self = this,
-      panel = ((typeof renderOptions.panel === 'string') ? document.getElementById(renderOptions.panel.replace('#', '')) : renderOptions.panel),
+      panel = ((typeof renderOptions.panel === 'string') ? document.getElementById(renderOptions.panel.replace('@{#}', '')) : renderOptions.panel),
       display;
 
   renderOptions.panel = panel;
@@ -1967,7 +1967,7 @@ GMaps.staticMapURL = function(options){
       }
 
       if (data.color) {
-        marker.push('color:' + data.color.replace('#', '0x'));
+        marker.push('color:' + data.color.replace('@{#}', '0x'));
         delete data.color;
       }
 
@@ -2031,8 +2031,8 @@ GMaps.staticMapURL = function(options){
 
   /** Polylines **/
   function parseColor(color, opacity) {
-    if (color[0] === '#'){
-      color = color.replace('#', '0x');
+    if (color[0] === '@{#}'){
+      color = color.replace('@{#}', '0x');
 
       if (opacity) {
         opacity = parseFloat(opacity);

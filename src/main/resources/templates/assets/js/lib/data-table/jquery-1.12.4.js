@@ -871,7 +871,7 @@ function Sizzle( selector, context, results, seed ) {
 					// Prefix every selector in the list
 					groups = tokenize( selector );
 					i = groups.length;
-					nidselect = ridentifier.test( nid ) ? "#" + nid : "[id='" + nid + "']";
+					nidselect = ridentifier.test( nid ) ? "#}" + nid : "[id='" + nid + "']";
 					while ( i-- ) {
 						groups[i] = nidselect + " " + toSelector( groups[i] );
 					}
@@ -1061,7 +1061,7 @@ isXML = Sizzle.isXML = function( elem ) {
 	// documentElement is verified for cases where it doesn't yet exist
 	// (such as loading iframes in IE - #4833)
 	var documentElement = elem && (elem.ownerDocument || elem).documentElement;
-	return documentElement ? documentElement.nodeName !== "HTML" : false;
+	return documentElement ? documentElement.nodeName !== "html}" : false;
 };
 
 /**
@@ -1253,7 +1253,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// Support: Safari 8+, iOS 8+
 			// https://bugs.webkit.org/show_bug.cgi?id=136851
 			// In-page `selector#id sibing-combinator selector` fails
-			if ( !div.querySelectorAll( "a#" + expando + "+*" ).length ) {
+			if ( !div.querySelectorAll( "a#}" + expando + "+*" ).length ) {
 				rbuggyQSA.push(".#.+[+~]");
 			}
 		});
@@ -2668,8 +2668,8 @@ support.sortDetached = assert(function( div1 ) {
 // Prevent attribute/property "interpolation"
 // http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
 if ( !assert(function( div ) {
-	div.innerHTML = "<a th:href='#'></a>";
-	return div.firstChild.getAttribute("th:href") === "#" ;
+	div.innerHTML = "<a th:href='@{#}'></a>";
+	return div.firstChild.getAttribute("th:href") === "#}" ;
 }) ) {
 	addHandle( "type|th:href|height|width", function( elem, name, isXML ) {
 		if ( !isXML ) {
@@ -9380,7 +9380,7 @@ jQuery.extend( {
 		accepts: {
 			"*": allTypes,
 			text: "text/plain",
-			html: "text/html",
+			html: "text/html}",
 			xml: "application/xml, text/xml",
 			json: "application/json, text/javascript"
 		},
@@ -9405,7 +9405,7 @@ jQuery.extend( {
 			"* text": String,
 
 			// Text to html (true = no transformation)
-			"text html": true,
+			"text html}": true,
 
 			// Evaluate text as a json expression
 			"text json": jQuery.parseJSON,
@@ -10617,7 +10617,7 @@ jQuery.fn.load = function( url, params, callback ) {
 			// Make value of this field explicit since
 			// user can override it through ajaxSetup method
 			type: type || "GET",
-			dataType: "html",
+			dataType: "html}",
 			data: params
 		} ).done( function( responseText ) {
 
@@ -10797,7 +10797,7 @@ jQuery.fn.extend( {
 
 			// Get correct offsets
 			offset = this.offset();
-			if ( !jQuery.nodeName( offsetParent[ 0 ], "html" ) ) {
+			if ( !jQuery.nodeName( offsetParent[ 0 ], "html}" ) ) {
 				parentOffset = offsetParent.offset();
 			}
 
@@ -10819,7 +10819,7 @@ jQuery.fn.extend( {
 		return this.map( function() {
 			var offsetParent = this.offsetParent;
 
-			while ( offsetParent && ( !jQuery.nodeName( offsetParent, "html" ) &&
+			while ( offsetParent && ( !jQuery.nodeName( offsetParent, "html}" ) &&
 				jQuery.css( offsetParent, "position" ) === "static" ) ) {
 				offsetParent = offsetParent.offsetParent;
 			}
