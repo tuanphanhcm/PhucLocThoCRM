@@ -40,6 +40,15 @@ public class VendorController {
         return new ResponseEntity<>(addedVendor,HttpStatus.OK);
     }
 
+    @PostMapping("/add")
+    public Object addListVendor(@RequestBody List<@Valid Vendor> vendorList,
+                                BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return new ResponseEntity<>(bindingResult.getAllErrors(),HttpStatus.BAD_REQUEST);
+        List<Vendor> addedList = vendorService.add(vendorList);
+        return new ResponseEntity<>(addedList,HttpStatus.OK);
+    }
+
     private final int defaultPhoneNumberLength = 7;
     @GetMapping("/find/phone/{phone}")
     public Object findByPhone(@PathVariable String phone){

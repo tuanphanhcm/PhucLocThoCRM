@@ -45,4 +45,8 @@ public class VendorService {
     public List<Vendor> findByEmail(String email){
         return vendorRepository.findByEmail(email);
     }
+
+    public List<Vendor> add(List<Vendor> vendorList) {
+        return vendorRepository.saveAll(vendorList);
+    }
 }
