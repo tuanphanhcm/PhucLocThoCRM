@@ -24,14 +24,13 @@ public class UserService {
 
     public User addUser(UserDto userDto){
         User user = parseUser(userDto);
-        String password = user.getPassword();
-        //user.setPassword();
         return userRepository.save(user);
     }
 
     public User findByUsername(String username){
         return userRepository.findByUsername(username);
     }
+
     private User parseUser(UserDto userDto){
         User user = new User();
         user.setName(userDto.getName());

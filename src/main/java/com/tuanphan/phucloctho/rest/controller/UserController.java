@@ -16,10 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+    private UserService userService;
+    private RoleService roleService;
+
     @Autowired
-    UserService userService;
-    @Autowired
-    RoleService roleService;
+    public UserController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
     @GetMapping("")
     public Object getAllUsers(){
@@ -55,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/find/username/{username}")
-    public Object findByUsername(@RequestParam String username){
+    public Object findByUsername(@PathVariable String username){
         if(username.isEmpty())
             return new ResponseEntity<>("Vui lòng nhập username", HttpStatus.BAD_GATEWAY);
 
