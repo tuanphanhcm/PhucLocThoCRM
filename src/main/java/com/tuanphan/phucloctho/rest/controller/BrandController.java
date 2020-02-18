@@ -20,6 +20,7 @@ public class BrandController {
     public BrandController(BrandService service){
         this.brandService = service;
     }
+
     @GetMapping("")
     public Object findAll(){
         List<Brand> brandList = brandService.findAll();
